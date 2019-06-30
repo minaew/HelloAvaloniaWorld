@@ -13,9 +13,6 @@ namespace HelloAvaloniaWorld.Views
 #if DEBUG
             this.AttachDevTools();
 #endif
-
-            // var border = new Border();
-            // border.DoubleTapped
         }
 
         private void InitializeComponent()

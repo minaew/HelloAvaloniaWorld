@@ -7,55 +7,62 @@
         x:Class="HelloAvaloniaWorld.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
         xmlns:local="clr-namespace:HelloAvaloniaWorld;assembly=HelloAvaloniaWorld"
-
+        xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
+        xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
+        Height="500"
+        Width="500"
         Title="HelloAvaloniaWorld">
-          <!--xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
-        xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"-->
+
   <Window.Resources>
     <local:FileEntryBackgroundConverter x:Key="FileEntryBackgroundConverter"/>
   </Window.Resources>
-  <Border BorderBrush="Red"
-          BorderThickness="4"
-          
-    >
 
     <Design.DataContext>
         <vm:MainWindowViewModel/>
     </Design.DataContext>
 
-  <StackPanel>
-    <StackPanel Orientation="Horizontal">
-      <Button Content="UP"
-              Command="{Binding UpCommand}"/>
-    </StackPanel>
-    <ListBox Items="{Binding ItemCollection}">
+  <Grid>
+  	<Grid.RowDefinitions>
+  		<RowDefinition Height="Auto"/>
+  		<RowDefinition Height="*"/>
+  	</Grid.RowDefinitions>
+
+  <Button Grid.Row="0"
+          Content="UP"
+          Command="{Binding UpCommand}"/>
+
+  <ListBox Grid.Row="1"
+           Items="{Binding ItemCollection}"
+           ScrollViewer.HorizontalScrollBarVisibility="Disabled">
       <ListBox.ItemTemplate>
         <DataTemplate>
-          <!--DoubleTapped="DoubleTappedHandler"-->
           <Border Padding="10"
+          		  Width="100"
                   Name="ItemBorder"
                   Background="{Binding Converter={StaticResource FileEntryBackgroundConverter}}">
-            <!--<i:Interaction.Behaviors>
-                <ia:EventTriggerBehavior EventName="DoubleTappedHandler"
-                                         SourceObject="{Binding #ItemBorder}">
-                    <ia:ChangePropertyAction TargetObject="{Binding #textBox}"
-                                             PropertyName="Text"
-                                             Value="World"/>
-                </ia:EventTriggerBehavior>
-            </i:Interaction.Behaviors>-->
-            <TextBlock Text="{Binding Name}"
-                       FontSize="15"
-                       Foreground="Red"/>
+            <i:Interaction.Behaviors>
+              <ia:EventTriggerBehavior EventName="DoubleTapped"
+              						   SourceObject="{Binding #ItemBorder}">
+                <ia:InvokeCommandAction Command="{Binding $parent[ListBox].DataContext.DoSomeShitCommand}"
+                						CommandParameter="{Binding FullPath}"/>
+              </ia:EventTriggerBehavior>
+            </i:Interaction.Behaviors>
+            <StackPanel>      
+            	<Image Source="{Binding ImagePath}"/>
+	            <TextBlock Text="{Binding Name}"
+	                       TextWrapping="Wrap"
+	                       FontSize="15"/>
+            </StackPanel>
           </Border>
         </DataTemplate>
       </ListBox.ItemTemplate>
+      
     <ListBox.ItemsPanel>
       <ItemsPanelTemplate>
         <WrapPanel/>
       </ItemsPanelTemplate>
     </ListBox.ItemsPanel>
+    
     </ListBox>
-  </StackPanel>
-  </Border>
-
+  </Grid>
 </Window>

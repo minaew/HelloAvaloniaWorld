@@ -16,7 +16,7 @@ namespace HelloAvaloniaWorld
                 return new SolidColorBrush(Color.FromRgb(0, 0xFF, 0));
             }
 
-            return new SolidColorBrush(Color.FromRgb(0, 0, 0xFF));
+            return new SolidColorBrush(Color.FromRgb(0x80, 0x80, 0xFF));
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
